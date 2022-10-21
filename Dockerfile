@@ -16,4 +16,6 @@ COPY graphql.config.js .
 
 COPY . .
 
+RUN yarn rw prisma generate
+
 CMD [ "yarn", "rw", "exec", "startChatbot" ]

@@ -11,7 +11,6 @@ import {
   addLastTurnUser,
   findActivity,
 } from 'api/src/lib/activities/activities'
-
 import { findOrCreateUser } from 'api/src/lib/users/users'
 import { Telegraf } from 'telegraf'
 
@@ -39,8 +38,7 @@ export default async ({ args }) => {
     try {
       const username = ctx.message.from.username
       if (username === null) {
-        await ctx.reply('Tu usario no es válido. Intenta usar otro.')
-        return
+        return await ctx.reply('Tu usario no es válido. Intenta usar otro.')
       }
 
       const user = await findOrCreateUser(username)
@@ -157,6 +155,10 @@ export default async ({ args }) => {
     try {
       const username = ctx.message.from.username
       const user = await findOrCreateUser(username)
+
+      if (user.activities.length === 0) {
+        return await ctx.reply(`No hay actividades guardadas.`)
+      }
 
       const message = user.activities
         .map((activity) => activity.id)
